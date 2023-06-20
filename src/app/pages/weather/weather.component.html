@@ -9,7 +9,11 @@
         <input type="checkbox" id="switch"
         (change)="toggleTemperatureFormat()" /><label for="switch">Toggle</label>
       </div>
-      <div class="dropdown"></div>
+      <div class="dropdown">
+        <select #cityValue (change)="getWeatherData(cityValue.value)">
+            <option *ngFor="let city of cities">{{ city }}</option>
+        </select>
+      </div>
     </div>
     <div class="results">
       <div class="result__description">

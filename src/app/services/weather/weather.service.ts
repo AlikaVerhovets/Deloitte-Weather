@@ -26,10 +26,10 @@ export class WeatherService {
 
     constructor(private httpClient: HttpClient) { }
 
-    getWeatherData(): Observable<WeatherResponse> {
+    getWeatherData( latValue: string, lonValue: string ): Observable<WeatherResponse> {
         const params = {
-            lat: '44.34',
-            lon: '10.99',
+            lat: latValue,
+            lon: lonValue,
             appid: this.appid
         };
         return this.httpClient.get<WeatherResponse>('https://api.openweathermap.org/data/2.5/weather', { params });
