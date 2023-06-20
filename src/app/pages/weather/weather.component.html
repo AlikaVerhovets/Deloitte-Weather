@@ -1,0 +1,43 @@
+<section class="weather__section">
+  <div class="weahter__header">
+    <h1>Weather report</h1>
+    <h2>{{ today }}</h2>
+  </div>
+  <div class="weather__data">
+    <div class="settings">
+      <div class="switcher">
+        <input type="checkbox" id="switch"
+        (change)="toggleTemperatureFormat()" /><label for="switch">Toggle</label>
+      </div>
+      <div class="dropdown"></div>
+    </div>
+    <div class="results">
+      <div class="result__description">
+        <img src="" alt="" />
+        <div class="description__text" *ngIf="weatherResponse">
+          {{ weatherResponse.weather[0].description }}
+        </div>
+      </div>
+      <div class="result__parameters">
+        <div class="result__temp" *ngIf="weatherResponse">
+          <ng-container [ngSwitch]="useCelsius">
+            <div *ngSwitchCase="true">{{ tempC }}</div>
+            <div *ngSwitchDefault>{{ weatherResponse.main.temp }}</div>
+          </ng-container>
+        </div>
+        <div class="result__tempfeel" *ngIf="weatherResponse">
+          {{ weatherResponse.main.feels_like }}
+        </div>
+        <div class="result__wind" *ngIf="weatherResponse">
+          {{ weatherResponse.wind.speed }}
+        </div>
+        <div class="result__humidity" *ngIf="weatherResponse">
+          {{ weatherResponse.main.humidity }}
+        </div>
+        <div class="result__pressure" *ngIf="weatherResponse">
+          {{ weatherResponse.main.pressure }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
