@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 
 export interface WeatherResponse {
-    weather: {
+    weather: [{
+        icon: string;
         main: string;
         description: string;
-    }
+    }]
     main: {
         temp: number;
         feels_like: number;
@@ -32,7 +35,12 @@ export class WeatherService {
             lon: lonValue,
             appid: this.appid
         };
-        return this.httpClient.get<WeatherResponse>('https://api.openweathermap.org/data/2.5/weather', { params });
+        return this.httpClient.get<WeatherResponse>('https://api.openweathermap.org/data/2.5/weather', { params }).pipe(
+            catchError(error => {
+            console.error('An error occurred:', error);
+            return throwError(() => error);
+            })
+        );
     }
 
 }

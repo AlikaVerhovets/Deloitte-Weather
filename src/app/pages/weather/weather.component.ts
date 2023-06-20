@@ -11,9 +11,10 @@ import { CitiesMapService } from "src/app/services/cities/cities.service";
 
 export class WeatherComponent implements OnInit {
     today: string = new Date().toLocaleString("en-US", { day: "numeric", month: "long", year: "numeric" });
-    weatherResponse: any;
+    weatherResponse!: WeatherResponse;
     weather!: WeatherResponse;
     tempC: string = "";
+    tempF: string = "";
     useCelsius: boolean = false;
     cities: string[] = [];
 
@@ -31,7 +32,10 @@ export class WeatherComponent implements OnInit {
             this.weatherService.getWeatherData(lat, lon).subscribe((response: WeatherResponse) => {
                 this.weatherResponse = response as WeatherResponse;
                 this.tempC = (this.weatherResponse.main.temp - 273.15).toFixed(0);
+                this.tempF = ((this.weatherResponse.main.temp - 273.15) * 9 / 5 + 32).toFixed(0);
             });
+        } else {
+            console.error(`No coordinates for city ${city}`);
         }
     }
 
