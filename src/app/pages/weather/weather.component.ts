@@ -15,6 +15,8 @@ export class WeatherComponent implements OnInit {
     weather!: WeatherResponse;
     tempC: string = "";
     tempF: string = "";
+    tempCFeels: string = "";
+    tempFFeels: string = "";
     useCelsius: boolean = false;
     cities: string[] = [];
 
@@ -33,6 +35,8 @@ export class WeatherComponent implements OnInit {
                 this.weatherResponse = response as WeatherResponse;
                 this.tempC = (this.weatherResponse.main.temp - 273.15).toFixed(0);
                 this.tempF = ((this.weatherResponse.main.temp - 273.15) * 9 / 5 + 32).toFixed(0);
+                this.tempCFeels = (this.weatherResponse.main.feels_like - 273.15).toFixed(0);
+                this.tempFFeels = ((this.weatherResponse.main.feels_like - 273.15) * 9 / 5 + 32).toFixed(0);
             });
         } else {
             console.error(`No coordinates for city ${city}`);

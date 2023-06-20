@@ -1,44 +1,65 @@
 <section class="weather__section">
-  <div class="weahter__header">
+  <div class="weather__header">
     <h1>Weather report</h1>
     <h2>{{ today }}</h2>
   </div>
   <div class="weather__data">
     <div class="settings">
       <div class="switcher">
-        <input type="checkbox" id="switch"
-        (change)="toggleTemperatureFormat()" /><label for="switch">Toggle</label>
+        <div class="switcher__text">Farenheit</div>
+        <input
+          type="checkbox"
+          id="switch"
+          (change)="toggleTemperatureFormat()"
+        /><label for="switch">Toggle</label>
+        <div class="switcher__text">Celsius</div>
       </div>
       <div class="dropdown">
-        <select #cityValue (change)="getWeatherData(cityValue.value)">
-            <option *ngFor="let city of cities">{{ city }}</option>
+        <span for="cityValue">Choose a city:</span>
+        <select #cityValue (change)="getWeatherData(cityValue.value)" 
+        class="form-select form-select-lg mb-3 " aria-label=".form-select-lg example">
+            <option *ngFor="let city of cities" class="select__option">{{ city }}</option>
         </select>
       </div>
     </div>
     <div class="results">
-      <div class="result__description">
-        <img src="https://openweathermap.org/img/wn/{{weatherResponse.weather[0].icon}}.png" alt="" />
+      <div class="results__description">
+        <img
+          src="https://openweathermap.org/img/wn/{{
+            weatherResponse.weather[0].icon
+          }}.png"
+          alt=""
+          *ngIf="weatherResponse"
+        />
         <div class="description__text" *ngIf="weatherResponse">
-          {{ weatherResponse.weather[0].description }}
+          Today is the {{ weatherResponse.weather[0].description }}
         </div>
       </div>
       <div class="result__parameters">
         <div class="result__temp" *ngIf="weatherResponse">
+          <b>The temprature is </b>
           <ng-container [ngSwitch]="useCelsius">
-            <div *ngSwitchCase="true">{{ tempC }}</div>
-            <div *ngSwitchDefault>{{ tempF }}</div>
+            <div *ngSwitchCase="true"> {{ tempC }} Celsius</div>
+            <div *ngSwitchDefault> {{ tempF }} Farenheit</div>
           </ng-container>
         </div>
         <div class="result__tempfeel" *ngIf="weatherResponse">
-          {{ weatherResponse.main.feels_like }}
+          <b>Feels like </b>
+          <ng-container [ngSwitch]="useCelsius">
+            <div *ngSwitchCase="true"> {{ tempCFeels }} Celsius</div>
+            <div *ngSwitchDefault> {{ tempFFeels }} Farenheit</div>
+          </ng-container>
         </div>
         <div class="result__wind" *ngIf="weatherResponse">
+          <b>Wind speed is </b>
           {{ weatherResponse.wind.speed }}
         </div>
         <div class="result__humidity" *ngIf="weatherResponse">
+          <b>Humidity is </b>
           {{ weatherResponse.main.humidity }}
         </div>
         <div class="result__pressure" *ngIf="weatherResponse">
+          <b>Pressure is </b>
           {{ weatherResponse.main.pressure }}
         </div>
       </div>
